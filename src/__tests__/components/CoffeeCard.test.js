@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import CoffeeCard from '../../src/components/CoffeeCard';
+import CoffeeCard from '../../components/CoffeeCard';
 
 describe('CoffeeCard', () => {
   test('renders name and price', () => {

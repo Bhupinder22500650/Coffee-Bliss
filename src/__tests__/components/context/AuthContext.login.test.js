@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react-native';
-import { AuthProvider, useAuth } from '../../src/context/AuthContext';
+import { AuthProvider, useAuth } from '../../../context/AuthContext';
 
 function Probe() {
   const { user, login } = useAuth();

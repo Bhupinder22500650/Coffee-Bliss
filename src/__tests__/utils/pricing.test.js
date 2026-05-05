@@ -1,4 +1,4 @@
-import { lineSubtotal, cartTotal } from '../../src/utils/pricing';
+import { lineSubtotal, cartTotal } from '../../utils/pricing';
 
 test('lineSubtotal adds add-ons and multiplies by qty', () => {
   expect(lineSubtotal(5, 2, [{ price: 1 }, { price: 0.5 }])).toBe(13); // (5+1+0.5)*2

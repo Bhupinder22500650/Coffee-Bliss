@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import QuantitySelector from '../../src/components/QuantitySelector';
+import QuantitySelector from '../../components/QuantitySelector';
 
 test('increments and decrements (onChange fires)', () => {
   const onChange = jest.fn();

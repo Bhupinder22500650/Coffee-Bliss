@@ -39,10 +39,10 @@
     "preset": "jest-expo",
     "setupFiles": [
       "<rootDir>/jest.setup.js",
-      "<rootDir>/test-utils/setup-seed-env.js"
+      "<rootDir>/src/test-utils/setup-seed-env.js"
     ],
     "setupFilesAfterEnv": [
-      "<rootDir>/test-utils/setup-seed-users.js"
+      "<rootDir>/src/test-utils/setup-seed-users.js"
     ]
   },
   "overrides": {

@@ -43,7 +43,7 @@ export default function HomeScreen({ navigation }) {
   // ——— Load menu (local JSON) ———
   const load = useCallback(async () => {
     try {
-      const data = require('../../data/menu.json');
+      const data = require('../data/menu.json');
       setMenu(Array.isArray(data) ? data : []);
     } finally {
       setLoading(false);
