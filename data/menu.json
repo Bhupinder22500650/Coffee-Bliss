@@ -1,0 +1,72 @@
+[
+  {
+     "id": "c1",
+    "name": "Espresso",
+    "price": 3.5,
+    "image": "",
+    "sizes": ["S", "M", "L"]
+  },
+  {
+    "id": "c2",
+    "name": "Americano",
+    "price": 4.0,
+    "image": "",
+    "sizes": ["S", "M", "L"]
+  },
+  {
+    "id": "c3",
+    "name": "Latte",
+    "price": 4.5,
+    "image": "",
+    "sizes": ["S", "M", "L"]
+  },
+  {
+    "id": "c4",
+    "name": "Cappuccino",
+    "price": 4.5,
+    "image": "",
+    "sizes": ["S", "M", "L"]
+  },
+  {
+    "id": "c5",
+    "name": "Mocha",
+    "price": 4.8,
+    "image": "",
+    "sizes": ["S", "M", "L"]
+  },
+  {
+    "id": "c6",
+    "name": "Flat White",
+    "price": 4.6,
+    "image": "",
+    "sizes": ["S", "M", "L"]
+  },
+  {
+    "id": "c7",
+    "name": "Macchiato",
+    "price": 3.8,
+    "image": "",
+    "sizes": ["S", "M", "L"]
+  },
+  {
+    "id": "c8",
+    "name": "Cold Brew",
+    "price": 5.2,
+    "image": "",
+    "sizes": ["S", "M", "L"]
+  },
+  {
+    "id": "c9",
+    "name": "Affogato",
+    "price": 5.5,
+    "image": "",
+    "sizes": ["S", "M", "L"]
+  },
+  {
+    "id": "c10",
+    "name": "Irish Coffee",
+    "price": 6.5,
+    "image": "",
+    "sizes": ["S", "M", "L"]
+  }
+]

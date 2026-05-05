@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "Coffee Bliss",
+    "slug": "coffee-bliss",
+    "scheme": "coffee",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "updates": { "enabled": true },
+    "assetBundlePatterns": ["**/*"],
+    "ios": { "supportsTablet": true },
+    "android": {
+      "package": "com.bhupinder.coffeebliss",
+      "versionCode": 1
+    },
+    "web": { "bundler": "webpack", "output": "static" },
+    "extra": {
+      "eas": { "projectId": "7c5eb16c-07e4-4af5-ad1b-2f9f9e2e379a" }
+    }
+  }
+}
