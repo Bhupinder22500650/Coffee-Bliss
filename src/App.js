@@ -1,10 +1,11 @@
 // App.js
 import React from 'react';
-import { ActivityIndicator, View } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
+
+import LoadingScreen from './components/LoadingScreen';
 
 import { AuthProvider, useAuth } from './context/AuthContext';
 
@@ -53,15 +54,12 @@ function Tabs() {
   );
 }
 
+
 function AppNavigator() {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#201A18' }}>
-        <ActivityIndicator color="#C67C4E" />
-      </View>
-    );
+    return <LoadingScreen />;
   }
 
   return (

@@ -19,6 +19,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   StatusBar,
+  Animated,
+  Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
@@ -47,6 +49,11 @@ export default function LoginScreen({ navigation }) {
   const [showPwd, setShowPwd] = useState(false); // toggles secureTextEntry
   const [remember, setRemember] = useState(true); // persist last email locally
   const [error, setError] = useState('');        // inline validation message
+  
+  // ——— Animation state ———
+  const fadeAnim = React.useRef(new Animated.Value(0)).current;
+  const scaleAnim = React.useRef(new Animated.Value(0.8)).current;
+  const floatAnim = React.useRef(new Animated.Value(0)).current;
 
   // Auth API from context (abstracts real auth provider)
   const { login } = useAuth();
@@ -58,6 +65,36 @@ export default function LoginScreen({ navigation }) {
       const last = await AsyncStorage.getItem(LAST_EMAIL_KEY);
       if (last) setEmail(last);
     })();
+
+    // Entrance animation
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+      Animated.spring(scaleAnim, {
+        toValue: 1,
+        friction: 4,
+        useNativeDriver: true,
+      }),
+    ]).start();
+
+    // Infinite floating animation
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(floatAnim, {
+          toValue: -15,
+          duration: 2500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(floatAnim, {
+          toValue: 0,
+          duration: 2500,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
   }, []);
 
   // Basic client-side validation; keeps UX responsive before calling auth.
@@ -136,21 +173,31 @@ export default function LoginScreen({ navigation }) {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
         <View style={{ flex: 1, padding: 24, justifyContent: 'center' }}>
-          {/* Brand header */}
-          <View
+          {/* Brand header with Animated Logo */}
+          <Animated.View
             style={{
               alignItems: 'center',
               marginBottom: 18,
               paddingBottom: 10,
+              opacity: fadeAnim,
+              transform: [
+                { scale: scaleAnim },
+                { translateY: floatAnim }
+              ]
             }}
           >
+            <Image
+              source={require('../../assets/logo.png')}
+              style={{ width: 140, height: 140, marginBottom: 10 }}
+              resizeMode="contain"
+            />
             <Text style={{ fontSize: 32, fontWeight: '900', color: colors.text }}>
               Coffee Bliss
             </Text>
             <Text style={{ color: colors.subtext, marginTop: 4 }}>
               Sign in to order your coffee
             </Text>
-          </View>
+          </Animated.View>
 
           {/* Email field */}
           <Text style={{ color: colors.subtext, marginBottom: 6, fontWeight: '600' }}>
