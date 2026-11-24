@@ -1,72 +1,72 @@
 [
   {
-     "id": "c1",
+    "id": "c1",
     "name": "Espresso",
-    "price": 3.5,
-    "image": "",
-    "sizes": ["S", "M", "L"]
+    "priceCents": 350,
+    "category": "Classics",
+    "description": "A concentrated espresso with a rich crema and a bold finish."
   },
   {
     "id": "c2",
     "name": "Americano",
-    "price": 4.0,
-    "image": "",
-    "sizes": ["S", "M", "L"]
+    "priceCents": 400,
+    "category": "Classics",
+    "description": "Espresso topped with water for a smooth, full-flavoured cup."
   },
   {
     "id": "c3",
     "name": "Latte",
-    "price": 4.5,
-    "image": "",
-    "sizes": ["S", "M", "L"]
+    "priceCents": 450,
+    "category": "Milk coffee",
+    "description": "Espresso with steamed milk and a light layer of foam."
   },
   {
     "id": "c4",
     "name": "Cappuccino",
-    "price": 4.5,
-    "image": "",
-    "sizes": ["S", "M", "L"]
+    "priceCents": 450,
+    "category": "Milk coffee",
+    "description": "A balanced blend of espresso, steamed milk, and airy foam."
   },
   {
     "id": "c5",
     "name": "Mocha",
-    "price": 4.8,
-    "image": "",
-    "sizes": ["S", "M", "L"]
+    "priceCents": 480,
+    "category": "Specialties",
+    "description": "Espresso and chocolate combined with smooth steamed milk."
   },
   {
     "id": "c6",
     "name": "Flat White",
-    "price": 4.6,
-    "image": "",
-    "sizes": ["S", "M", "L"]
+    "priceCents": 460,
+    "category": "Milk coffee",
+    "description": "Espresso with silky microfoam and a pronounced coffee flavour."
   },
   {
     "id": "c7",
     "name": "Macchiato",
-    "price": 3.8,
-    "image": "",
-    "sizes": ["S", "M", "L"]
+    "priceCents": 380,
+    "category": "Classics",
+    "description": "Espresso finished with a small spoonful of milk foam."
   },
   {
     "id": "c8",
     "name": "Cold Brew",
-    "price": 5.2,
-    "image": "",
-    "sizes": ["S", "M", "L"]
+    "priceCents": 520,
+    "category": "Specialties",
+    "description": "Slow-steeped coffee with a mellow flavour and a refreshing finish."
   },
   {
     "id": "c9",
     "name": "Affogato",
-    "price": 5.5,
-    "image": "",
-    "sizes": ["S", "M", "L"]
+    "priceCents": 550,
+    "category": "Specialties",
+    "description": "A dessert-inspired coffee pairing espresso with vanilla sweetness."
   },
   {
     "id": "c10",
     "name": "Irish Coffee",
-    "price": 6.5,
-    "image": "",
-    "sizes": ["S", "M", "L"]
+    "priceCents": 650,
+    "category": "Specialties",
+    "description": "An Irish-style coffee with a creamy finish. This local menu uses an alcohol-free recipe."
   }
 ]

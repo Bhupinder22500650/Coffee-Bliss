@@ -6,21 +6,24 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
-    "splash": {
-      "image": "./assets/logo.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#201A18"
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/logo.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#201A18"
+        }
+      ]
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.bhupinder.coffeebliss"
     },
-    "updates": { "enabled": true },
-    "assetBundlePatterns": ["**/*"],
-    "ios": { "supportsTablet": true },
     "android": {
       "package": "com.bhupinder.coffeebliss",
       "versionCode": 1
     },
-    "web": { "bundler": "webpack", "output": "static" },
-    "extra": {
-      "eas": { "projectId": "7c5eb16c-07e4-4af5-ad1b-2f9f9e2e379a" }
-    }
+    "web": { "bundler": "metro", "output": "single", "favicon": "./assets/logo.png" }
   }
 }

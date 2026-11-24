@@ -1,84 +1,133 @@
-// App.js
-import React from 'react';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { ActivityIndicator, StatusBar, Text } from 'react-native';
+import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
-
-import LoadingScreen from './components/LoadingScreen';
-
-import { AuthProvider, useAuth } from './context/AuthContext';
-
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { AppProvider, useApp } from './context/AppContext';
+import { Button, ConfirmDialog, Screen } from './components/ui';
+import ProfilesScreen from './screens/ProfilesScreen';
 import HomeScreen from './screens/HomeScreen';
 import DetailsScreen from './screens/DetailsScreen';
 import CartScreen from './screens/CartScreen';
 import CheckoutScreen from './screens/CheckoutScreen';
-import OrderSuccessScreen from './screens/OrderSuccessScreen';
-import SignupScreen from './screens/SignupScreen';
-import ProfileScreen from './screens/ProfileScreen';
-import LoginScreen from './screens/LoginScreen';
-import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
-
-// NEW (make sure these files exist)
 import OrderHistoryScreen from './screens/OrderHistoryScreen';
-import { OrderDetailsScreen } from './screens/OrderDetailsScreen';
+import OrderScreen from './screens/OrderScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import { colors, styles } from './theme';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const icons = { Home: 'cafe', Cart: 'cart', Orders: 'time', Profile: 'person' };
+const navigationTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    background: colors.background,
+    card: colors.surface,
+    text: colors.text,
+    border: colors.border,
+    primary: colors.accent,
+  },
+};
 
 function Tabs() {
+  const { pricing } = useApp();
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarIcon: ({ focused, size, color }) => {
-          let icon = 'home';
-          if (route.name === 'Home') icon = focused ? 'cafe' : 'cafe-outline';
-          else if (route.name === 'Cart') icon = focused ? 'cart' : 'cart-outline';
-          // NEW: icon for Orders tab (history)
-          else if (route.name === 'Orders') icon = focused ? 'time' : 'time-outline';
-          else if (route.name === 'Profile') icon = focused ? 'person' : 'person-outline';
-          return <Ionicons name={icon} size={size} color={color} />;
-        },
-        tabBarActiveTintColor: '#C67C4E',
-        tabBarInactiveTintColor: '#8d8d8d',
-        tabBarStyle: { backgroundColor: '#2B2320', borderTopColor: '#3A2E2A' },
+        tabBarActiveTintColor: colors.accent,
+        tabBarInactiveTintColor: colors.muted,
+        tabBarIcon: ({ focused, color, size }) => (
+          <Ionicons
+            name={`${icons[route.name]}${focused ? '' : '-outline'}`}
+            color={color}
+            size={size}
+          />
+        ),
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Cart" component={CartScreen} />
-      {/* NEW: Orders tab */}
+      <Tab.Screen name="Home" component={HomeScreen} options={{ title: 'Menu' }} />
+      <Tab.Screen
+        name="Cart"
+        component={CartScreen}
+        options={{ tabBarBadge: pricing.itemCount || undefined }}
+      />
       <Tab.Screen name="Orders" component={OrderHistoryScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 }
 
-
-function AppNavigator() {
-  const { user, loading } = useAuth();
-
-  if (loading) {
-    return <LoadingScreen />;
-  }
-
+function Navigator() {
+  const { profile, state, loading, busy, reload, reset } = useApp();
+  const [confirmReset, setConfirmReset] = useState(false);
+  if (loading)
+    return (
+      <Screen>
+        <ActivityIndicator color={colors.accent} accessibilityLabel="Loading local data" />
+      </Screen>
+    );
+  if (!state)
+    return (
+      <Screen>
+        <Text style={styles.title}>Local data could not be loaded</Text>
+        <Text style={styles.muted}>
+          Try loading again. If the saved data cannot be recovered, you can start fresh.
+        </Text>
+        <Button title="Try again" onPress={reload} disabled={busy} />
+        <Button
+          title="Reset local data"
+          secondary
+          onPress={() => setConfirmReset(true)}
+          disabled={busy}
+        />
+        <ConfirmDialog
+          visible={confirmReset}
+          title="Start fresh?"
+          message="The current saved data will be backed up before a new local store is created."
+          confirmLabel="Reset local data"
+          onConfirm={async () => {
+            const result = await reset();
+            if (result.ok) setConfirmReset(false);
+          }}
+          onCancel={() => setConfirmReset(false)}
+          busy={busy}
+        />
+      </Screen>
+    );
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {user ? (
-        <>
-          <Stack.Screen name="Tabs" component={Tabs} />
-          <Stack.Screen name="Details" component={DetailsScreen} options={{ headerShown: true, title: 'Details' }} />
-          <Stack.Screen name="Checkout" component={CheckoutScreen} options={{ headerShown: true, title: 'Checkout' }} />
-          <Stack.Screen name="OrderSuccess" component={OrderSuccessScreen} options={{ headerShown: true, title: 'Thank you' }} />
-          {/* NEW: receipt screen for any order from history */}
-          <Stack.Screen name="OrderDetails" component={OrderDetailsScreen} options={{ headerShown: true, title: 'Order Receipt' }} />
-        </>
+    <Stack.Navigator screenOptions={{ headerBackTitle: 'Back' }}>
+      {profile ? (
+        <Stack.Group navigationKey={profile.id}>
+          <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
+          <Stack.Screen
+            name="Details"
+            component={DetailsScreen}
+            options={({ route }) => ({
+              title: route.params?.lineId ? 'Edit coffee' : 'Customize coffee',
+            })}
+          />
+          <Stack.Screen
+            name="Checkout"
+            component={CheckoutScreen}
+            options={{ title: 'Checkout' }}
+          />
+          <Stack.Screen
+            name="OrderSuccess"
+            component={OrderScreen}
+            options={{ title: 'Order saved' }}
+          />
+          <Stack.Screen
+            name="OrderDetails"
+            component={OrderScreen}
+            options={{ title: 'Receipt' }}
+          />
+        </Stack.Group>
       ) : (
-        <>
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Signup" component={SignupScreen} />
-          <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-        </>
+        <Stack.Screen name="Profiles" component={ProfilesScreen} options={{ headerShown: false }} />
       )}
     </Stack.Navigator>
   );
@@ -86,15 +135,19 @@ function AppNavigator() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <NavigationContainer
-        theme={{
-          ...DefaultTheme,
-          colors: { ...DefaultTheme.colors, background: '#201A18' },
-        }}
-      >
-        <AppNavigator />
-      </NavigationContainer>
-    </AuthProvider>
+    <SafeAreaProvider>
+      <AppProvider>
+        <StatusBar barStyle="light-content" />
+        <NavigationContainer
+          theme={navigationTheme}
+          documentTitle={{
+            formatter: (options, route) =>
+              `${options?.title || route?.name || 'Menu'} | Coffee Bliss`,
+          }}
+        >
+          <Navigator />
+        </NavigationContainer>
+      </AppProvider>
+    </SafeAreaProvider>
   );
 }
